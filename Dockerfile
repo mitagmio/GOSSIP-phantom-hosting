@@ -15,4 +15,4 @@ RUN chmod a+x /root/phantom-hosting/phantom-hosting-linux-amd64
 
 ENTRYPOINT ["/root/phantom-hosting/phantom-hosting-linux-amd64"]
 
-EXPOSE 8200
+EXPOSE 9999

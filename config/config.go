@@ -27,7 +27,7 @@ func GenerateNodeDetails(m MasternodeString) (mnString string, err error) {
 	m.EpochTime = time.Now().Unix()
 	m.IPv4 = fake.IPv4()
 	m.Alias = alias
-	m.Port = 36001
+	m.Port = 23677
 	txbytes := len(m.TransactionID)
 	genkeybytes := len(m.Genkey)
 
@@ -42,7 +42,7 @@ func GenerateNodeDetails(m MasternodeString) (mnString string, err error) {
 		return "", errors.New("TX Index incorrect")
 	}
 	
-	if m.Port != 36001 {
+	if m.Port != 23677 {
 		return "", errors.New("Port incorrect")
 	}
 

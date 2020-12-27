@@ -39,8 +39,8 @@ func Start() {
 
 	r.PathPrefix("/www/").Handler(http.StripPrefix("/www/", http.FileServer(http.Dir("www"))))
 
-	fmt.Println("Running on http://localhost:8101")
-	log.Fatal(http.ListenAndServe(":8101", r))
+	fmt.Println("Running on http://localhost:9999")
+	log.Fatal(http.ListenAndServe(":9999", r))
 }
 
 // Frontend Handlers
