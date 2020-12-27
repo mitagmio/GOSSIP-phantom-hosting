@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+{{template "head"}}
+<body>
+{{template "menu"}}
+    <div id="app" class="container">
+        <h1>View Configuration</h1>
+        <br>
+        <code v-show="success == true">${result | limitToDisplay(50)}</code>
+        <pre v-show="error.length > 0" style="color: red">${error}</pre>
+        {{template "footer"}}
+    </div>
+</body>
+<script>
+    const app = new Vue({
+        delimiters: ['${', '}'],
+        el: '#app',
+        data: {
+            success: false,
+            result: [],
+            error: [],
+        },
+        methods: {
+            viewConfiguration: function() {
+                axios.get("/api/viewconfiguration").then(response => {
+                    if (response.data.success == true) {
+                        this.success = true
+                        this.result = response.data.data
+                    } else {
+                        this.error = response.data.error
+                        console.log(this.error)
+                    }
+                })
+                this.clear()
+            },
+            clear: function () {
+                this.result = []
+                this.error = []
+                this.success = false
+            },
+        },
+        beforeMount() {
+            this.viewConfiguration()
+        }
+    })
+</script>
+</html>

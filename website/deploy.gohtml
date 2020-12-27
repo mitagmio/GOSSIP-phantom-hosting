@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+{{template "head"}}
+<body>
+{{template "menu"}}
+    <div id="app" class="container">
+        <form @submit.prevent="processForm" id="initiate-form">
+            <h1>Masternode Configuration</h1>
+            <div class="form-row">
+                <div class="form-group col-6">
+                    <label for="genkey">Masternode Genkey</label>
+                    <input type="text" class="form-control" id="genkey" placeholder="Genkey" v-model="form.genkey" required>
+                </div>
+            </div>
+            <div class="form-group form-row">
+                <div class="col-7">
+                    <label for="txid">Collateral Transaction ID</label>
+                    <input type="text" class="form-control" id="txid" placeholder="Masternode Outputs" v-model="form.txid" required>
+                </div>
+                <div class="col-1">
+                    <label for="tx_index">TX Index</label>
+                    <input type="number" class="form-control" id="tx_index" placeholder="0 or 1" v-model="form.tx_index" required>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary" @click="button=true" :disabled="success" >Deploy Masternode</button>
+            <br>
+            <br>
+            <code v-if="success == true">${result}</code>
+            <pre v-if="error.length > 0" style="color: red">${error}</pre>
+        </form>
+        {{template "footer"}}
+    </div>
+</body>
+<script>
+    const app = new Vue({
+        delimiters: ['${', '}'],
+        el: '#app',
+        data: {
+            form: {
+                genkey: "",
+                txid: "",
+                tx_index: "",
+                port: "",
+            },      
+            success: false,
+            result: [],
+            error: [],
+        },
+        methods: {
+            processForm: function() {
+                // Convert from string to int
+                this.form.tx_index = Number(this.form.tx_index)
+                this.form.port = Number(this.form.port)
+
+                axios.post("/api/generatemasternodestring", this.form).then(response => {
+                    if (response.data.success == true) {
+                        this.success = true
+                        this.result = response.data.data
+                    } else {
+                        this.error = response.data.error
+                        console.log(this.error)
+                    }
+                })
+
+                axios.post("/api/addmasternode", this.form).then(response => {
+                    if (response.data.success == true) {
+                        this.success = true
+                        this.result = response.data.data
+                    } else {
+                        this.error = response.data.error
+                        console.log(this.error)
+                    }
+                })                
+                
+                this.clear()
+            },
+            clear: function () {
+                this.result = []
+                this.error = []
+                this.success = false
+            },
+        },
+    })
+</script>
+</html>
