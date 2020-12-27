@@ -1,4 +1,4 @@
-[![Docker Stats](http://dockeri.co/image/smai/gali_fe_phantom)](https://hub.docker.com/r/smai/gali_fe_phantom/)
+[![Docker Stats](http://dockeri.co/image/smai/goss_fe_phantom)](https://hub.docker.com/r/smai/goss_fe_phantom/)
 
 # Phantom Hosting - Gossip Blockchain
 
