@@ -4,10 +4,11 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"github.com/boltdb/bolt"
-	"phantom-hosting/utils"
-	"golang.org/x/crypto/bcrypt"
 	"net/http"
+
+	"github.com/boltdb/bolt"
+	"github.com/gossip-phantom-hosting/utils"
+	"golang.org/x/crypto/bcrypt"
 )
 
 var db bolt.DB

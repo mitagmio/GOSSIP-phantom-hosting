@@ -21,7 +21,7 @@
             error: [],
         },
         methods: {
-            viewConfiguration: function() {
+            viewConfiguration: async function() {
                 axios.get("/api/viewconfiguration").then(response => {
                     if (response.data.success == true) {
                         this.success = true
@@ -31,7 +31,12 @@
                         console.log(this.error)
                     }
                 })
+
+                await this.$nextTick()
+
                 this.clear()
+
+                await this.$nextTick()
             },
             clear: function () {
                 this.result = []

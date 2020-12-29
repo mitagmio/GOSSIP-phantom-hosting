@@ -1,7 +1,7 @@
 package main
 
 import (
-	"phantom-hosting/api"
+	"github.com/gossip-phantom-hosting/api"
 )
 
 func main() {

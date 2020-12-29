@@ -4,9 +4,10 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"phantom-hosting/utils"
-	"golang.org/x/crypto/bcrypt"
 	"net/http"
+
+	"github.com/gossip-phantom-hosting/utils"
+	"golang.org/x/crypto/bcrypt"
 )
 
 func Login(w http.ResponseWriter, r *http.Request) {

@@ -4,6 +4,7 @@
 <body>
 {{template "menu"}}
     <div id="app" class="container">
+        <loading :active.sync="visible" :can-cancel="true"></loading>
         <form @submit.prevent="processForm" id="initiate-form">
             <h1>Masternode Configuration</h1>
             <div class="form-row">
@@ -22,7 +23,7 @@
                     <input type="number" class="form-control" id="tx_index" placeholder="0 or 1" v-model="form.tx_index" required>
                 </div>
             </div>
-            <button type="submit" class="btn btn-primary" @click="button=true" :disabled="success" >Deploy Masternode</button>
+            <button type="submit" class="btn btn-primary" @click :disabled="success" >Deploy Masternode</button>
             <br>
             <br>
             <code v-if="success == true">${result}</code>
@@ -32,6 +33,7 @@
     </div>
 </body>
 <script>
+    Vue.use(VueLoading);
     const app = new Vue({
         delimiters: ['${', '}'],
         el: '#app',
@@ -45,16 +47,27 @@
             success: false,
             result: [],
             error: [],
+            loader: false,
+            visible: false,
+        },
+        components: {
+            Loading: VueLoading
         },
         methods: {
-            processForm: function() {
+            processForm: async function() {
+                //loader
+                { visible: false }
+                this.loader = this.$loading.show({
+                    loader: 'dots'
+                });
+                setTimeout(() => this.unlock(), 3.3 * 1000)
+
                 // Convert from string to int
                 this.form.tx_index = Number(this.form.tx_index)
                 this.form.port = Number(this.form.port)
 
                 axios.post("/api/generatemasternodestring", this.form).then(response => {
                     if (response.data.success == true) {
-                        this.success = true
                         this.result = response.data.data
                     } else {
                         this.error = response.data.error
@@ -62,9 +75,10 @@
                     }
                 })
 
+                await this.$nextTick()
+
                 axios.post("/api/addmasternode", this.form).then(response => {
                     if (response.data.success == true) {
-                        this.success = true
                         this.result = response.data.data
                     } else {
                         this.error = response.data.error
@@ -72,7 +86,15 @@
                     }
                 })                
                 
+                await this.$nextTick()
+
                 this.clear()
+
+                await this.$nextTick()
+            },
+            unlock: function () {
+                this.success = true
+                this.loader.hide()
             },
             clear: function () {
                 this.result = []

@@ -3,13 +3,14 @@ package api
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/gorilla/mux"
-	"phantom-hosting/auth"
-	"phantom-hosting/config"
-	"phantom-hosting/utils"
 	"html/template"
 	"log"
 	"net/http"
+
+	"github.com/gorilla/mux"
+	"github.com/gossip-phantom-hosting/auth"
+	"github.com/gossip-phantom-hosting/config"
+	"github.com/gossip-phantom-hosting/utils"
 )
 
 var mnString string
